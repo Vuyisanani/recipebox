@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/edit_view_group">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_recipe_toolbar"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Recipe Name"
+        android:id="@+id/recipe_name_edit_view"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Recipe Category"
+        android:id="@+id/category_edit_view"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Prep Time"
+        android:id="@+id/prep_time_edit_view"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Cook Time"
+        android:id="@+id/cook_time_edit_view"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Total Time"
+        android:id="@+id/total_time_edit_view"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Serves"
+        android:id="@+id/serves_edit_view"/>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/ingredient_edit_view_group"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Quantity"
+        android:id="@+id/quantity_edit_view_1"/>
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Units"
+            android:id="@+id/units_edit_view_1"/>
+        <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="First Ingredient"
+            android:id="@+id/ingedient_edit_view_1"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            android:id="@+id/add_ingredient_button"
+            android:onClick="addIngredient"/></LinearLayout>
+</LinearLayout>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Directions"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical"
+        android:lines="3"
+        android:minLines="3"
+        android:id="@+id/directions_edit_view"/>
+</LinearLayout>
+</ScrollView>

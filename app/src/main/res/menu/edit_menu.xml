@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context='.AddRecipeActivity'>
+<item android:id="@+id/save_action"
+    android:title="SAVE"
+    android:orderInCategory="100"
+    app:showAsAction="always"/>
+    <item android:id="@+id/delete_action"
+        android:title="DELETE"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom"/>
+    <item android:id="@+id/cancel_action"
+        android:title="CANCEL"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom"/>
+</menu>
