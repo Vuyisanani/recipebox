@@ -131,12 +131,17 @@ throw new  RuntimeException("Boo!");
         if (null == selection) selection = "1";
 
         switch (sUriMatcher.match(uri)) {
-
-            case CODE_RECIPE:
+            case CODE_RECIPE_SPECIFIC:
+                String id = uri.getLastPathSegment();
+                String[] selectionArguments = {id};
                 numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
                         RecipeContract.RecipeEntry.RECIPE_TABLE_NAME,
-                        selection,
-                        selectionArgs);
+                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
+                        selectionArguments);
+                numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
+                        RecipeContract.RecipeEntry.INGREDIENTS_TABLE_NAME,
+                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
+                        selectionArguments);
 
                 break;
 

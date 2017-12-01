@@ -1,7 +1,9 @@
 package com.fatmogul.android.recipebox;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -10,6 +12,8 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.fatmogul.android.recipebox.data.RecipeContract;
@@ -18,8 +22,8 @@ import com.fatmogul.android.recipebox.data.RecipeContract;
  * Created by adam on 11/30/17.
  */
 
-public class DetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
-    private DetailAdapter mAdapter;
+public class RecipeDetailActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+    private RecipeDetailAdapter mAdapter;
 
     public static final int INDEX_RECIPE_NAME = 0;
     public static final int INDEX_PREP_TIME = 1;
@@ -63,10 +67,11 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     private RecyclerView mRecyclerView;
     private int mPosition = RecyclerView.NO_POSITION;
     private Cursor mCursor;
+    long mRecipeId;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_recipe_detail);
 
         mRecyclerView = (RecyclerView) this.findViewById(R.id.ingredient_list_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -77,7 +82,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new DetailAdapter(this, mCursor);
+        mAdapter = new RecipeDetailAdapter(this, mCursor);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -108,8 +113,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         }
 
 
-
-
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         boolean cursorHasValidData = false;
@@ -126,7 +129,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         String test = mRecipeView.getText().toString();
         //if (!("Recipe Name: " + cursor.getString(INDEX_RECIPE_NAME) == mRecipeView.getText().toString())) {
         if(cursor.getColumnCount() > 3){
-            long recipeId = cursor.getLong(INDEX_RECIPE_ID);
+            mRecipeId = cursor.getLong(INDEX_RECIPE_ID);
             String recipeName = cursor.getString(INDEX_RECIPE_NAME);
             String prepTime = cursor.getString(INDEX_PREP_TIME);
             String cookTime = cursor.getString(INDEX_COOK_TIME);
@@ -144,7 +147,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             mDirectionsView.setText("Directions: " + directions);
             mCategoryView.setText("Category: " + category);
 
-            mIngredientUri = RecipeContract.RecipeEntry.buildIngredientsWithId(recipeId);
+            mIngredientUri = RecipeContract.RecipeEntry.buildIngredientsWithId(mRecipeId);
             getSupportLoaderManager().initLoader(ID_INGEDIENT_LOADER, null, this);
 
         }
@@ -158,7 +161,37 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.recipe_detail_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.edit_recipe_button:
+                Intent intent = new Intent(RecipeDetailActivity.this, AddRecipeActivity.class);
+                startActivity(intent);
+            case R.id.delete_recipe_button:
+                new DeleteRecipe().execute();
+                finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+private class DeleteRecipe extends AsyncTask<Void,Void,Void>{
+
+
+    @Override
+    protected Void doInBackground(Void... voids) {
+        Uri uri = RecipeContract.RecipeEntry.buildRecipeWithId(mRecipeId);
+        getContentResolver().delete(uri,null,null);
+        return null;
+    }
+}
 }

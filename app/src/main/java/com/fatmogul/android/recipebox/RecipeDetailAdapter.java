@@ -15,12 +15,12 @@ import com.fatmogul.android.recipebox.data.RecipeContract;
  * Created by adam on 12/1/17.
  */
 
-public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailViewHolder> {
+public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.DetailViewHolder> {
 
 private Context mContext;
     private Cursor mCursor;
 
-    public DetailAdapter(@NonNull Context context, Cursor cursor){
+    public RecipeDetailAdapter(@NonNull Context context, Cursor cursor){
         mCursor = cursor;
         mContext = context;
     }

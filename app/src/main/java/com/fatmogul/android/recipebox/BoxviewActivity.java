@@ -118,7 +118,7 @@ public void addRecipe(View view){
 
     @Override
     public void onClick(long id) {
-        Intent intent = new Intent(BoxviewActivity.this, DetailActivity.class);
+        Intent intent = new Intent(BoxviewActivity.this, RecipeDetailActivity.class);
         Uri uri = RecipeContract.RecipeEntry.buildRecipeWithId(id);
         intent.putExtra("ID",id);
         intent.setData(uri);
