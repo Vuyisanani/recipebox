@@ -126,9 +126,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
             /* No data to display, simply return and do nothing */
             return;
         }
-        String test = mRecipeView.getText().toString();
-        //if (!("Recipe Name: " + cursor.getString(INDEX_RECIPE_NAME) == mRecipeView.getText().toString())) {
-        if(cursor.getColumnCount() > 3){
+        if (cursor.getColumnCount() > 3) {
             mRecipeId = cursor.getLong(INDEX_RECIPE_ID);
             String recipeName = cursor.getString(INDEX_RECIPE_NAME);
             String prepTime = cursor.getString(INDEX_PREP_TIME);
@@ -150,13 +148,16 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
             mIngredientUri = RecipeContract.RecipeEntry.buildIngredientsWithId(mRecipeId);
             getSupportLoaderManager().initLoader(ID_INGEDIENT_LOADER, null, this);
 
-        }
-        else{
+        } else {
             mAdapter.swapCursor(cursor);
             if (mPosition == RecyclerView.NO_POSITION) mPosition = 0;
             mRecyclerView.smoothScrollToPosition(mPosition);
 
         }
+    }
+        @Override
+        public void onLoaderReset(Loader<Cursor> loader) {
+
 
     }
 
@@ -170,8 +171,10 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.edit_recipe_button:
-                Intent intent = new Intent(RecipeDetailActivity.this, AddRecipeActivity.class);
+                Intent intent = new Intent(RecipeDetailActivity.this, EditRecipeActivity.class);
+                intent.setData(mUri);
                 startActivity(intent);
+                break;
             case R.id.delete_recipe_button:
                 new DeleteRecipe().execute();
                 finish();
@@ -180,17 +183,14 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
 
-    }
-private class DeleteRecipe extends AsyncTask<Void,Void,Void>{
+private class DeleteRecipe extends AsyncTask<Void,Void,Void> {
 
 
     @Override
     protected Void doInBackground(Void... voids) {
         Uri uri = RecipeContract.RecipeEntry.buildRecipeWithId(mRecipeId);
-        getContentResolver().delete(uri,null,null);
+        getContentResolver().delete(uri, null, null);
         return null;
     }
 }

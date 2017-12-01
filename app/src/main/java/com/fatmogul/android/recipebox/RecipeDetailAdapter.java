@@ -38,6 +38,8 @@ private Context mContext;
 
     @Override
     public void onBindViewHolder(DetailViewHolder holder, int position) {
+        if(mCursor == null || mCursor.isClosed())return;
+
         mCursor.moveToPosition(position);
         String ingredient = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_INGREDIENT));
         int quantityInt = mCursor.getInt(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_QUANTITY));

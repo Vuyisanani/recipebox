@@ -4,12 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context='.AddRecipeActivity'>
 
-    <item android:id="@+id/add_save_action"
+    <item android:id="@+id/edit_save_action"
         android:title="SAVE"
         android:orderInCategory="100"
         app:showAsAction="always"/>
-    <item android:id="@+id/add_cancel_action"
+    <item android:id="@+id/edit_cancel_action"
         android:title="CANCEL"
+        android:orderInCategory="300"
+        app:showAsAction="always"/>
+    <item android:id="@+id/edit_delete_action"
+        android:title="DELETE"
         android:orderInCategory="300"
         app:showAsAction="ifRoom"/>
 </menu>

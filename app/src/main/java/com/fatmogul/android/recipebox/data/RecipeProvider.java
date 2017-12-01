@@ -30,12 +30,11 @@ public class RecipeProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = RecipeContract.CONTENT_AUTHORITY;
 
-
         matcher.addURI(authority, RecipeContract.PATH_RECIPES, CODE_RECIPE);
 
-        matcher.addURI(authority, RecipeContract.PATH_INGREDIENTS, CODE_INGREDIENT);
-
         matcher.addURI(authority, RecipeContract.PATH_RECIPES + "/#", CODE_RECIPE_SPECIFIC);
+
+        matcher.addURI(authority, RecipeContract.PATH_INGREDIENTS, CODE_INGREDIENT);
 
         matcher.addURI(authority,RecipeContract.PATH_INGREDIENTS + "/#", CODE_INGREDIENT_SPECIFIC);
 
@@ -127,7 +126,6 @@ throw new  RuntimeException("Boo!");
 
     int numRowsDeleted;
 
-
         if (null == selection) selection = "1";
 
         switch (sUriMatcher.match(uri)) {
@@ -143,6 +141,14 @@ throw new  RuntimeException("Boo!");
                         RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
                         selectionArguments);
 
+                break;
+
+            case CODE_INGREDIENT:
+                String [] selectionArgument = {selection};
+                numRowsDeleted = mOpenHelper.getWritableDatabase().delete(
+                        RecipeContract.RecipeEntry.INGREDIENTS_TABLE_NAME,
+                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
+                        selectionArgument);
                 break;
 
             default:
@@ -200,6 +206,24 @@ return null;
 
     @Override
     public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        switch (sUriMatcher.match(uri)){
+            case CODE_RECIPE_SPECIFIC:
+                String recipeId = uri.getLastPathSegment();
+                String[] selectionArguments = {recipeId};
+                int rowsUpdated = 0;
+                long id = mOpenHelper.getWritableDatabase().update(RecipeContract.RecipeEntry.RECIPE_TABLE_NAME,values,RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
+                        selectionArguments);
+                if(id != -1){
+                    rowsUpdated ++;
+                }
+
+                if(rowsUpdated > 0){
+                    getContext().getContentResolver().notifyChange(uri,null);
+                }
+                return rowsUpdated;
+        }
+
         throw new RuntimeException("Not implemented, needs to be");
     }
 @Override

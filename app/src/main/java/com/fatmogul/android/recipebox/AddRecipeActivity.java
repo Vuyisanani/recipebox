@@ -32,8 +32,8 @@ int quantityCounter = 2001;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe_view);
 
-        final LinearLayout root = (LinearLayout) findViewById(R.id.ingredient_edit_view_group);
-        Button mButton = (Button) findViewById(R.id.add_ingredient_button);
+        final LinearLayout root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
+        Button mButton = (Button) findViewById(R.id.add_recipe_add_ingredient_button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +53,7 @@ int quantityCounter = 2001;
                 units.setId(unitsCounter);
                 EditText ingredient = new EditText(AddRecipeActivity.this);
                 ingredient.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                ingredient.setHint("Next Ingredient");
+                ingredient.setHint("Ingredient");
                 ingredient.setId(ingredientCounter);
                 linearLayout.addView(quantity);
                 linearLayout.addView(units);
@@ -75,14 +75,14 @@ int quantityCounter = 2001;
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save_action:
-                EditText recipeNameView = (EditText) findViewById(R.id.recipe_name_edit_view);
-                EditText categoryView = (EditText) findViewById(R.id.category_edit_view);
-                EditText prepTimeView = (EditText) findViewById(R.id.prep_time_edit_view);
-                EditText cookTimeView = (EditText) findViewById(R.id.cook_time_edit_view);
-                EditText totalTimeView = (EditText) findViewById(R.id.total_time_edit_view);
-                EditText servesView = (EditText) findViewById(R.id.serves_edit_view);
-                EditText directionsView = (EditText) findViewById(R.id.directions_edit_view);
+            case R.id.add_save_action:
+                EditText recipeNameView = (EditText) findViewById(R.id.add_recipe_name_edit_view);
+                EditText categoryView = (EditText) findViewById(R.id.add_recipe_category_edit_view);
+                EditText prepTimeView = (EditText) findViewById(R.id.add_recipe_prep_time_edit_view);
+                EditText cookTimeView = (EditText) findViewById(R.id.add_recipe_cook_time_edit_view);
+                EditText totalTimeView = (EditText) findViewById(R.id.add_recipe_total_time_edit_view);
+                EditText servesView = (EditText) findViewById(R.id.add_recipe_serves_edit_view);
+                EditText directionsView = (EditText) findViewById(R.id.add_recipe_directions_edit_view);
 
                 String recipeName = recipeNameView.getText().toString();
                 String category = categoryView.getText().toString();
@@ -105,9 +105,9 @@ int quantityCounter = 2001;
                 cv.put(RecipeContract.RecipeEntry.COLUMN_DIRECTIONS,directions);
                 contentValues.add(cv);
 
-                EditText ingredientNameView = (EditText) findViewById(R.id.ingedient_edit_view_1);
-                EditText unitView = (EditText) findViewById(R.id.units_edit_view_1);
-                EditText quantityView = (EditText) findViewById(R.id.quantity_edit_view_1);
+                EditText ingredientNameView = (EditText) findViewById(R.id.add_recipe_ingredient_edit_view);
+                EditText unitView = (EditText) findViewById(R.id.add_recipe_units_edit_view);
+                EditText quantityView = (EditText) findViewById(R.id.add_recipe_quantity_edit_view);
 
                 String ingredientName = ingredientNameView.getText().toString();
                 String unit = unitView.getText().toString();
@@ -146,7 +146,7 @@ int quantityCounter = 2001;
                 break;
 
 
-            case R.id.cancel_action:
+            case R.id.add_cancel_action:
                 finish();
                 return true;
 

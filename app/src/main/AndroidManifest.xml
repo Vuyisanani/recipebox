@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddRecipeActivity"
-            android:label="Edit Recipe"
+            android:label="Add Recipe"
             android:parentActivityName=".BoxviewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -27,10 +27,18 @@
         </activity>
         <activity android:name=".RecipeDetailActivity"
             android:label="Recipe Details"
+            android:launchMode="singleTop"
             android:parentActivityName=".BoxviewActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".BoxviewActivity"/>
+        </activity>
+        <activity android:name=".EditRecipeActivity"
+            android:label="Edit Recipe"
+            android:parentActivityName=".RecipeDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecipeDetailActivity"/>
         </activity>
 <provider
     android:authorities="com.fatmogul.android.recipebox"
