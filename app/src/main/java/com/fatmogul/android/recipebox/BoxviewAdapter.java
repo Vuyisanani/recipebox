@@ -15,7 +15,7 @@ import com.fatmogul.android.recipebox.data.RecipeContract;
  * Created by adam on 11/20/17.
  */
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class BoxviewAdapter extends RecyclerView.Adapter<BoxviewAdapter.RecipeViewHolder> {
     final private RecipeAdapterOnClickHandler mClickHandler;
     private Context mContext;
 
@@ -24,7 +24,7 @@ public interface RecipeAdapterOnClickHandler{
 }
     private Cursor mCursor;
 
-    public RecipeAdapter(@NonNull Context context, RecipeAdapterOnClickHandler clickHandler){
+    public BoxviewAdapter(@NonNull Context context, RecipeAdapterOnClickHandler clickHandler){
         mClickHandler = clickHandler;
         mContext = context;
     }

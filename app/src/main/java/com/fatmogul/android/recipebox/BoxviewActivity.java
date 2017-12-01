@@ -2,7 +2,6 @@ package com.fatmogul.android.recipebox;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
@@ -21,10 +20,9 @@ import com.fatmogul.android.recipebox.data.RecipeContract;
 
 public class BoxviewActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        RecipeAdapter.RecipeAdapterOnClickHandler {
+        BoxviewAdapter.RecipeAdapterOnClickHandler {
 
-    private RecipeAdapter mAdapter;
-    private SQLiteDatabase mDb;
+    private BoxviewAdapter mAdapter;
     private final static String LOG_TAG = BoxviewActivity.class.getSimpleName();
     private static final int ID_RECIPE_LOADER = 42;
     public static final int INDEX_RECIPE_NAME = 1;
@@ -50,7 +48,7 @@ public class BoxviewActivity extends AppCompatActivity implements
 
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new RecipeAdapter(this, this);
+        mAdapter = new BoxviewAdapter(this, this);
 
         mRecyclerView.setAdapter(mAdapter);
 

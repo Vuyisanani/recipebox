@@ -97,6 +97,21 @@ throw new  RuntimeException("Boo!");
 
                 break;
             }
+            case CODE_INGREDIENT_SPECIFIC: {
+                String id = uri.getLastPathSegment();
+                String[] selectionArguments = new String[] {id};
+                cursor = mOpenHelper.getReadableDatabase().query(
+                        RecipeContract.RecipeEntry.INGREDIENTS_TABLE_NAME,
+                        projection,
+                        RecipeContract.RecipeEntry.COLUMN_RECIPE_ID + " = ? ",
+                        selectionArguments,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+
+
+            }
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -160,6 +175,20 @@ throw new  RuntimeException("Boo!");
                 }
 
                 return ContentUris.withAppendedId(uri,id);
+
+            case CODE_INGREDIENT:
+                rowsInserted = 0;
+                id = mOpenHelper.getWritableDatabase().insert(RecipeContract.RecipeEntry.INGREDIENTS_TABLE_NAME, null, values);
+                if (id != -1) {
+                    rowsInserted++;
+                }
+
+                if (rowsInserted > 0) {
+                    getContext().getContentResolver().notifyChange(uri, null);
+                }
+
+                return ContentUris.withAppendedId(uri,id);
+
         }
 return null;
     }

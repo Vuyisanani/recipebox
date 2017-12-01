@@ -68,7 +68,7 @@ int quantityCounter = 2001;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.edit_menu,menu);
+        getMenuInflater().inflate(R.menu.add_recipe_menu,menu);
         return true;
     }
 
@@ -169,8 +169,8 @@ private class SaveRecipe extends AsyncTask<ArrayList<ContentValues>,Void,Void> {
                 position ++;
             }
             else{
-            values.put(RecipeContract.RecipeEntry.COLUMN_RECIPE_ID, id);
-            getContentResolver().insert(RecipeContract.RecipeEntry.CONTENT_URI_INGREDIENTS,values);
+                values.put(RecipeContract.RecipeEntry.COLUMN_RECIPE_ID, id);
+                getContentResolver().insert(RecipeContract.RecipeEntry.CONTENT_URI_INGREDIENTS,values);
 
             }}
 
