@@ -1,6 +1,7 @@
 package com.fatmogul.android.recipebox;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -10,7 +11,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +31,8 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
     int ingredientCounter = 1;
     int unitsCounter = 1001;
     int quantityCounter = 2001;
+    int addButtonCounter = 3001;
+    int removeButtonCounter = 4001;
     EditText mRecipeView;
     EditText mCategoryView;
     EditText mPrepView;
@@ -39,6 +41,8 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
     EditText mServesView;
     EditText mDirectionsView;
     long mRecipeId;
+
+    ArrayList<Integer> ids = new ArrayList<>();
 
 
     public static final int INDEX_RECIPE_NAME = 0;
@@ -72,26 +76,72 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
 
     private Uri mIngredientUri;
     private Uri mUri;
-
+LinearLayout root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe_view);
-        EditText unusedIngredientView = (EditText) findViewById(R.id.add_recipe_ingredient_edit_view);
-        EditText unusedUnitsView = (EditText) findViewById(R.id.add_recipe_units_edit_view);
-        EditText unusedQuantityView = (EditText) findViewById(R.id.add_recipe_quantity_edit_view);
-        unusedIngredientView.setVisibility(View.GONE);
-        unusedUnitsView.setVisibility(View.GONE);
-        unusedQuantityView.setVisibility(View.GONE);
-        final LinearLayout root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
-        Button mButton = (Button) findViewById(R.id.add_recipe_add_ingredient_button);
-        mButton.setOnClickListener(new View.OnClickListener() {
+        root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
+        ingredientCounter++;
+        quantityCounter++;
+        unitsCounter++;
+        addButtonCounter++;
+        removeButtonCounter++;
+        mRecipeView = (EditText) findViewById(R.id.add_recipe_name_edit_view);
+        mCategoryView = (EditText) findViewById(R.id.add_recipe_category_edit_view);
+        mPrepView = (EditText) findViewById(R.id.add_recipe_prep_time_edit_view);
+        mCookView = (EditText) findViewById(R.id.add_recipe_cook_time_edit_view);
+        mTotalView = (EditText) findViewById(R.id.add_recipe_total_time_edit_view);
+        mServesView = (EditText) findViewById(R.id.add_recipe_serves_edit_view);
+        mDirectionsView = (EditText) findViewById(R.id.add_recipe_directions_edit_view);
+        mUri = getIntent().getData();
+        getSupportLoaderManager().initLoader(ID_RECIPE_DETAIL_LOADER, null, this);
+    }
+        /*ids.add(ingredientCounter);
+        LinearLayout linearLayout = new LinearLayout(EditRecipeActivity.this);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        EditText quantity = new EditText(EditRecipeActivity.this);
+        quantity.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        quantity.setHint("Quantity");
+        quantity.setId(quantityCounter);
+        EditText units = new EditText(EditRecipeActivity.this);
+        units.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        units.setHint("Units");
+        units.setId(unitsCounter);
+        EditText ingredient = new EditText(EditRecipeActivity.this);
+        ingredient.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ingredient.setHint("Ingredient");
+        ingredient.setId(ingredientCounter);
+        Button addButton = new Button(EditRecipeActivity.this);
+        addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addButton.setText("+");
+        addButton.setId(addButtonCounter);
+        addAddClickListener(addButton);
+        Button removeButton = new Button(EditRecipeActivity.this);
+        removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        removeButton.setText("-");
+        removeButton.setId(removeButtonCounter);
+        addRemoveClickListener(removeButton);
+
+        linearLayout.addView(removeButton);
+        linearLayout.addView(quantity);
+        linearLayout.addView(units);
+        linearLayout.addView(ingredient);
+        linearLayout.addView(addButton);
+        root.addView(linearLayout);
+    }*/
+    public void addAddClickListener(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ingredientCounter++;
                 quantityCounter++;
                 unitsCounter++;
+                addButtonCounter++;
+                removeButtonCounter++;
+                ids.add(ingredientCounter);
                 LinearLayout linearLayout = new LinearLayout(EditRecipeActivity.this);
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -107,23 +157,57 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
                 ingredient.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 ingredient.setHint("Ingredient");
                 ingredient.setId(ingredientCounter);
+                Button addButton = new Button(EditRecipeActivity.this);
+                addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                addButton.setText("+");
+                addButton.setId(addButtonCounter);
+                addAddClickListener(addButton);
+                Button removeButton = new Button(EditRecipeActivity.this);
+                removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                removeButton.setText("-");
+                removeButton.setId(removeButtonCounter);
+                addRemoveClickListener(removeButton);
+
+                linearLayout.addView(removeButton);
                 linearLayout.addView(quantity);
                 linearLayout.addView(units);
                 linearLayout.addView(ingredient);
+                linearLayout.addView(addButton);
                 root.addView(linearLayout);
+            }
 
+            ;
+        });
+    }
+
+    public void addRemoveClickListener(final Button button) {
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ingredientCounter > 2) {
+                    int counter = button.getId();
+                    Button removeButton = findViewById(counter);
+                    EditText quantity = (EditText) findViewById(counter - 2000);
+                    EditText units = (EditText) findViewById(counter - 3000);
+                    EditText ingredient = (EditText) findViewById(counter - 4000);
+                    Button addButton = findViewById(counter - 1000);
+                    quantity.setVisibility(View.GONE);
+                    units.setVisibility(View.GONE);
+                    ingredient.setVisibility(View.GONE);
+                    removeButton.setVisibility(View.GONE);
+                    addButton.setVisibility(View.GONE);
+                    ids.remove(Integer.valueOf(counter - 4000));
+                    ingredientCounter--;
+                    quantityCounter--;
+                    unitsCounter--;
+                    addButtonCounter--;
+                    removeButtonCounter--;
+                }
             }
         });
-        mRecipeView = (EditText) findViewById(R.id.add_recipe_name_edit_view);
-        mCategoryView = (EditText) findViewById(R.id.add_recipe_category_edit_view);
-        mPrepView = (EditText) findViewById(R.id.add_recipe_prep_time_edit_view);
-        mCookView = (EditText) findViewById(R.id.add_recipe_cook_time_edit_view);
-        mTotalView = (EditText) findViewById(R.id.add_recipe_total_time_edit_view);
-        mServesView = (EditText) findViewById(R.id.add_recipe_serves_edit_view);
-        mDirectionsView = (EditText) findViewById(R.id.add_recipe_directions_edit_view);
-        mUri = getIntent().getData();
-        getSupportLoaderManager().initLoader(ID_RECIPE_DETAIL_LOADER, null, this);
     }
+
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
@@ -179,7 +263,9 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
             ingredientCounter ++;
             unitsCounter ++;
             quantityCounter ++;
-
+            addButtonCounter ++;
+            removeButtonCounter ++;
+            ids.add(ingredientCounter);
 
             final LinearLayout root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
             LinearLayout linearLayout = new LinearLayout(EditRecipeActivity.this);
@@ -200,9 +286,22 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
             String ingredientString = cursor.getString(INDEX_INGREDIENT_NAME);
             ingredient.setText(ingredientString);
             ingredient.setId(ingredientCounter);
+            Button addButton = new Button(EditRecipeActivity.this);
+            addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            addButton.setText("+");
+            addButton.setId(addButtonCounter);
+            addAddClickListener(addButton);
+            Button removeButton = new Button(EditRecipeActivity.this);
+            removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            removeButton.setText("-");
+            removeButton.setId(removeButtonCounter);
+            addRemoveClickListener(removeButton);
+
+            linearLayout.addView(removeButton);
             linearLayout.addView(quantity);
             linearLayout.addView(units);
             linearLayout.addView(ingredient);
+            linearLayout.addView(addButton);
             root.addView(linearLayout);
 
 
@@ -210,6 +309,10 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
                 ingredientCounter ++;
                 unitsCounter ++;
                 quantityCounter ++;
+                addButtonCounter ++;
+                removeButtonCounter ++;
+                ids.add(ingredientCounter);
+
                 linearLayout = new LinearLayout(EditRecipeActivity.this);
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -228,18 +331,26 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
                 ingredientString = cursor.getString(INDEX_INGREDIENT_NAME);
                 ingredient.setText(ingredientString);
                 ingredient.setId(ingredientCounter);
+                addButton = new Button(EditRecipeActivity.this);
+                addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                addButton.setText("+");
+                addButton.setId(addButtonCounter);
+                addAddClickListener(addButton);
+                removeButton = new Button(EditRecipeActivity.this);
+                removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                removeButton.setText("-");
+                removeButton.setId(removeButtonCounter);
+                addRemoveClickListener(removeButton);
+
+                linearLayout.addView(removeButton);
                 linearLayout.addView(quantity);
                 linearLayout.addView(units);
                 linearLayout.addView(ingredient);
+                linearLayout.addView(addButton);
                 root.addView(linearLayout);
 
             }
-
-
-
-
         }
-
     }
 
     @Override
@@ -279,8 +390,7 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
                 cv.put(RecipeContract.RecipeEntry.COLUMN_DIRECTIONS, directions);
                 contentValues.add(cv);
 
-                for (int i = 2; i <= ingredientCounter; i++) {
-                    Log.d("Please work", "onOptionsItemSelected: ");
+                for (int i : ids) {
                     EditText subIngredientNameView = (EditText) findViewById(i);
                     EditText subUnitView = (EditText) findViewById(1000 + i);
                     EditText subQuantityView = (EditText) findViewById(2000 + i);
@@ -309,6 +419,13 @@ public class EditRecipeActivity extends AppCompatActivity implements LoaderManag
 
             case R.id.edit_cancel_action:
                 finish();
+                break;
+
+            case R.id.edit_delete_action:
+                new DeleteRecipe().execute();
+                Intent intent = new Intent(EditRecipeActivity.this, BoxviewActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 return true;
 
         }
@@ -337,5 +454,16 @@ class UpdateRecipe extends AsyncTask<ArrayList<ContentValues>,Void,Void>{
 
         return null;}
 
-}}
+}
+class DeleteRecipe extends AsyncTask<Void, Void,Void>{
+
+    @Override
+    protected Void doInBackground(Void... voids) {
+        Uri uri = RecipeContract.RecipeEntry.buildRecipeWithId(mRecipeId);
+        getContentResolver().delete(uri, null, null);
+        return null;
+    }
+}
+
+}
 

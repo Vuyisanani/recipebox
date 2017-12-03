@@ -47,9 +47,12 @@ public interface RecipeAdapterOnClickHandler{
         int recipeIdInt = mCursor.getInt(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_RECIPE_ID));
         String recipeId = String.valueOf(recipeIdInt);
         String totalTime = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_TOTAL_TIME));
+        String servings = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_SERVES));
+        String category = mCursor.getString(mCursor.getColumnIndex(RecipeContract.RecipeEntry.COLUMN_CATEGORY));
         holder.recipeNameTextView.setText(name);
-        holder.totalTimeTextView.setText(totalTime);
-        holder.idTextView.setText(recipeId);
+        holder.categoryTextView.setText("Category: " + category);
+        holder.totalTimeTextView.setText("Time to Make: " + totalTime);
+        holder.servingsTextView.setText("Serves: " + servings);
         }
 
 
@@ -69,13 +72,15 @@ public interface RecipeAdapterOnClickHandler{
     public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView recipeNameTextView;
         TextView totalTimeTextView;
-        TextView idTextView;
+        TextView servingsTextView;
+        TextView categoryTextView;
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
             recipeNameTextView = (TextView) itemView.findViewById(R.id.recipe_name_text_view);
             totalTimeTextView = (TextView) itemView.findViewById(R.id.total_time_text_view);
-            idTextView = (TextView) itemView.findViewById(R.id.recipe_id_view);
+            servingsTextView = (TextView) itemView.findViewById(R.id.servings_text_view);
+            categoryTextView = (TextView) itemView.findViewById(R.id.category_text_view);
             itemView.setOnClickListener(this);
         }
 

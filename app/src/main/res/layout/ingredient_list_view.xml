@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -23,4 +24,5 @@
                 android:hint="First Ingredient"
                 android:id="@+id/ingedient_detail_view"/>
 
-</LinearLayout>
+
+    </LinearLayout>

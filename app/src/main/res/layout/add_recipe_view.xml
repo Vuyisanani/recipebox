@@ -50,35 +50,9 @@
     android:id="@+id/add_recipe_ingredient_edit_view_group"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Quantity"
-        android:id="@+id/add_recipe_quantity_edit_view"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="Units"
-            android:id="@+id/add_recipe_units_edit_view"/>
-        <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="First Ingredient"
-            android:id="@+id/add_recipe_ingredient_edit_view"/></LinearLayout>
 
-</LinearLayout>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        android:id="@+id/add_recipe_add_ingredient_button"
-        android:onClick="addIngredient"/>
-    <EditText
+    </LinearLayout>
+        <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Directions"

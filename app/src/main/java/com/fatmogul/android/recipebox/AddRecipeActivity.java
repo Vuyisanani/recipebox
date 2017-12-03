@@ -26,20 +26,66 @@ public class AddRecipeActivity extends AppCompatActivity{
 int ingredientCounter = 1;
 int unitsCounter = 1001;
 int quantityCounter = 2001;
+int addButtonCounter = 3001;
+int removeButtonCounter = 4001;
+ArrayList<Integer> ids = new ArrayList<>();
+LinearLayout root;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_recipe_view);
 
-        final LinearLayout root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
-        Button mButton = (Button) findViewById(R.id.add_recipe_add_ingredient_button);
-        mButton.setOnClickListener(new View.OnClickListener() {
+        root = (LinearLayout) findViewById(R.id.add_recipe_ingredient_edit_view_group);
+        ingredientCounter++;
+        quantityCounter++;
+        unitsCounter++;
+        addButtonCounter++;
+        removeButtonCounter++;
+        ids.add(ingredientCounter);
+        LinearLayout linearLayout = new LinearLayout(AddRecipeActivity.this);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        EditText quantity = new EditText(AddRecipeActivity.this);
+        quantity.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        quantity.setHint("Quantity");
+        quantity.setId(quantityCounter);
+        EditText units = new EditText(AddRecipeActivity.this);
+        units.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        units.setHint("Units");
+        units.setId(unitsCounter);
+        EditText ingredient = new EditText(AddRecipeActivity.this);
+        ingredient.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        ingredient.setHint("Ingredient");
+        ingredient.setId(ingredientCounter);
+        Button addButton = new Button(AddRecipeActivity.this);
+        addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addButton.setText("+");
+        addButton.setId(addButtonCounter);
+        addAddClickListener(addButton);
+        Button removeButton = new Button(AddRecipeActivity.this);
+        removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        removeButton.setText("-");
+        removeButton.setId(removeButtonCounter);
+        addRemoveClickListener(removeButton);
+
+        linearLayout.addView(removeButton);
+        linearLayout.addView(quantity);
+        linearLayout.addView(units);
+        linearLayout.addView(ingredient);
+        linearLayout.addView(addButton);
+        root.addView(linearLayout);
+    }
+    public void addAddClickListener(Button button){
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ingredientCounter ++;
-                quantityCounter ++;
-                unitsCounter ++;
+                ingredientCounter++;
+                quantityCounter++;
+                unitsCounter++;
+                addButtonCounter++;
+                removeButtonCounter++;
+                ids.add(ingredientCounter);
                 LinearLayout linearLayout = new LinearLayout(AddRecipeActivity.this);
                 linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 linearLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -55,16 +101,55 @@ int quantityCounter = 2001;
                 ingredient.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 ingredient.setHint("Ingredient");
                 ingredient.setId(ingredientCounter);
+                Button addButton = new Button(AddRecipeActivity.this);
+                addButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                addButton.setText("+");
+                addButton.setId(addButtonCounter);
+                addAddClickListener(addButton);
+                Button removeButton = new Button(AddRecipeActivity.this);
+                removeButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                removeButton.setText("-");
+                removeButton.setId(removeButtonCounter);
+                addRemoveClickListener(removeButton);
+
+                linearLayout.addView(removeButton);
                 linearLayout.addView(quantity);
                 linearLayout.addView(units);
                 linearLayout.addView(ingredient);
+                linearLayout.addView(addButton);
                 root.addView(linearLayout);
-
-
-
             }
+
+            ;
         });
     }
+
+            public void addRemoveClickListener(final Button button) {
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (ingredientCounter > 2) {
+                            int counter = button.getId();
+                            Button removeButton = findViewById(counter);
+                            EditText quantity = (EditText) findViewById(counter - 2000);
+                            EditText units = (EditText) findViewById(counter - 3000);
+                            EditText ingredient = (EditText) findViewById(counter - 4000);
+                            Button addButton = findViewById(counter - 1000);
+                            quantity.setVisibility(View.GONE);
+                            units.setVisibility(View.GONE);
+                            ingredient.setVisibility(View.GONE);
+                            removeButton.setVisibility(View.GONE);
+                            addButton.setVisibility(View.GONE);
+                            ids.remove(Integer.valueOf(counter - 4000));
+                            ingredientCounter--;
+                            quantityCounter--;
+                            unitsCounter--;
+                            addButtonCounter--;
+                            removeButtonCounter--;
+                        }
+                    }
+                });}
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -105,26 +190,10 @@ int quantityCounter = 2001;
                 cv.put(RecipeContract.RecipeEntry.COLUMN_DIRECTIONS,directions);
                 contentValues.add(cv);
 
-                EditText ingredientNameView = (EditText) findViewById(R.id.add_recipe_ingredient_edit_view);
-                EditText unitView = (EditText) findViewById(R.id.add_recipe_units_edit_view);
-                EditText quantityView = (EditText) findViewById(R.id.add_recipe_quantity_edit_view);
-
-                String ingredientName = ingredientNameView.getText().toString();
-                String unit = unitView.getText().toString();
-                String quantityString = quantityView.getText().toString();
-                int quantity = 0;
-                if(!quantityString.matches(""))quantity = Integer.parseInt(quantityString);
-
-                ContentValues cvi = new ContentValues();
-                cvi.put(RecipeContract.RecipeEntry.COLUMN_INGREDIENT,ingredientName);
-                cvi.put(RecipeContract.RecipeEntry.COLUMN_UNITS,unit);
-                cvi.put(RecipeContract.RecipeEntry.COLUMN_QUANTITY,quantity);
-                contentValues.add(cvi);
-
-                for(int i=2; i <= ingredientCounter; i++){
-                    EditText subIngredientNameView = (EditText) findViewById(i);
-                    EditText subUnitView = (EditText) findViewById(1000 + i);
-                    EditText subQuantityView = (EditText) findViewById(2000 + i);
+                for(int number : ids){
+                    EditText subIngredientNameView = (EditText) findViewById(number);
+                    EditText subUnitView = (EditText) findViewById(1000 + number);
+                    EditText subQuantityView = (EditText) findViewById(2000 + number);
 
                     String subIngredientName = subIngredientNameView.getText().toString();
                     String subUnit = subUnitView.getText().toString();

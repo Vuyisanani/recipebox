@@ -30,7 +30,12 @@ public class BoxviewActivity extends AppCompatActivity implements
     public static final int INDEX_RECIPE_ID = 0;
     private RecyclerView mRecyclerView;
     private int mPosition = RecyclerView.NO_POSITION;
-    private static final String[] MAIN_RECIPE_PROJECTION = {RecipeContract.RecipeEntry.COLUMN_RECIPE_ID,RecipeContract.RecipeEntry.COLUMN_NAME, RecipeContract.RecipeEntry.COLUMN_TOTAL_TIME};
+    private static final String[] MAIN_RECIPE_PROJECTION = {
+            RecipeContract.RecipeEntry.COLUMN_RECIPE_ID,
+            RecipeContract.RecipeEntry.COLUMN_NAME,
+            RecipeContract.RecipeEntry.COLUMN_TOTAL_TIME,
+            RecipeContract.RecipeEntry.COLUMN_SERVES,
+            RecipeContract.RecipeEntry.COLUMN_CATEGORY};
 
 
     @Override
