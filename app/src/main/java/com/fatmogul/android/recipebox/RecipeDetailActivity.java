@@ -1,5 +1,6 @@
 package com.fatmogul.android.recipebox;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -60,7 +62,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
     private TextView mRecipeView;
     private TextView mPrepView;
     private TextView mCookView;
-    private TextView mTotalView;
     private TextView mServesView;
     private TextView mDirectionsView;
     private TextView mCategoryView;
@@ -89,7 +90,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
         mRecipeView = (TextView) findViewById(R.id.recipe_name_detail_view);
         mPrepView = (TextView) findViewById(R.id.prep_time_detail_view);
         mCookView = (TextView) findViewById(R.id.cook_time_detail_view);
-        mTotalView = (TextView) findViewById(R.id.total_time_detail_view);
         mServesView = (TextView) findViewById(R.id.serves_detail_view);
         mDirectionsView = (TextView) findViewById(R.id.directions_detail_view);
         mCategoryView = (TextView) findViewById(R.id.category_detail_view);
@@ -131,19 +131,17 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
             String recipeName = cursor.getString(INDEX_RECIPE_NAME);
             String prepTime = cursor.getString(INDEX_PREP_TIME);
             String cookTime = cursor.getString(INDEX_COOK_TIME);
-            String totalTime = cursor.getString(INDEX_TOTAL_TIME);
             int servesInt = cursor.getInt(INDEX_SERVES);
             String serves = Integer.toString(servesInt);
             String directions = cursor.getString(INDEX_DIRECTIONS);
             String category = cursor.getString(INDEX_CATEGORY);
 
-            mRecipeView.setText("Recipe Name: " + recipeName);
-            mPrepView.setText("Preperation Time: " + prepTime);
+            mRecipeView.setText(recipeName);
+            mPrepView.setText("Prep Time: " + prepTime);
             mCookView.setText("Cook Time: " + cookTime);
-            mTotalView.setText("Total Time: " + totalTime);
             mServesView.setText("Serves: " + serves);
-            mDirectionsView.setText("Directions: " + directions);
-            mCategoryView.setText("Category: " + category);
+            mDirectionsView.setText(directions);
+            mCategoryView.setText(category);
 
             mIngredientUri = RecipeContract.RecipeEntry.buildIngredientsWithId(mRecipeId);
             getSupportLoaderManager().initLoader(ID_INGEDIENT_LOADER, null, this);
@@ -176,8 +174,18 @@ public class RecipeDetailActivity extends AppCompatActivity implements LoaderMan
                 startActivity(intent);
                 break;
             case R.id.delete_recipe_button:
-                new DeleteRecipe().execute();
-                finish();
+                new AlertDialog.Builder(this)
+                        .setTitle("Title")
+                        .setMessage("Are you sure you want to delete?")
+                        .setPositiveButton("Yes, I'm sure", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                new DeleteRecipe().execute();
+                                finish();
+                            }})
+                        .setNegativeButton("No", null).show();
+
+
         }
 
         return super.onOptionsItemSelected(item);

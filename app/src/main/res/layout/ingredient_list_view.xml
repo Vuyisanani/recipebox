@@ -8,20 +8,20 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Quantity"
                 android:layout_weight="1"
+                android:text="14"
                 android:id="@+id/quantity_detail_view"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:text="tbs"
                 android:layout_height="wrap_content"
-                android:hint="Units"
                 android:id="@+id/units_detail_view"/>
             <TextView
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:layout_width="0dp"
+                android:text="chicken"
                 android:layout_height="wrap_content"
-                android:hint="First Ingredient"
                 android:id="@+id/ingedient_detail_view"/>
 
 

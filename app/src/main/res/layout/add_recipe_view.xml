@@ -6,11 +6,14 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/add_recipe_view_group"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
         android:layout_marginTop="16dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="25dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,16 +24,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Recipe Name:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/add_recipe_name_edit_view"
                 android:layout_width="0dp"
+                android:inputType="text"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -43,16 +48,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Category:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/add_recipe_category_edit_view"
                 android:layout_width="0dp"
+                android:inputType="text"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -65,16 +72,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Prep Time:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
+                android:inputType="text"
                 android:id="@+id/add_recipe_prep_time_edit_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -87,16 +96,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Cook Time:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
+                android:inputType="text"
                 android:id="@+id/add_recipe_cook_time_edit_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -109,16 +120,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Total Time:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
+                android:inputType="text"
                 android:id="@+id/add_recipe_total_time_edit_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="2" />
         </LinearLayout>
 
@@ -131,16 +144,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:gravity="end"
                 android:text="Serves #:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <EditText
+                android:inputType="number"
                 android:id="@+id/add_recipe_serves_edit_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="2" />
 
         </LinearLayout>
@@ -160,25 +175,25 @@
         android:layout_height="wrap_content"
         android:layout_weight=".74"
         android:text="Qty"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:gravity="left"/>
+        android:gravity="start"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".78"
         android:text="Units"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:gravity="left"/>
+        android:gravity="start"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.65"
         android:text="Ingredient"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:gravity="left"/>
+        android:gravity="start"/>
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -206,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Directions:"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -215,9 +230,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:inputType="textMultiLine"
             android:lines="3"
             android:minLines="1"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            android:layout_marginBottom="50dp"/>
+
     </LinearLayout>
 </ScrollView>

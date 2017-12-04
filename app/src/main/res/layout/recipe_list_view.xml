@@ -33,10 +33,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:paddingLeft="20dp"
                 android:text="Tasty"
-                android:textSize="10dp"
+                android:textSize="10sp"
                 android:textStyle="italic" />
 
 
@@ -48,7 +48,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="sans-serif"
                     android:text="15 hrs"
-                    android:textSize="10dp"
+                    android:textSize="10sp"
                     android:gravity="center"
                     android:textStyle="italic" />
 
@@ -57,10 +57,10 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="right"
+                android:layout_gravity="end"
+                android:gravity="end"
                 android:text="500"
-                android:textSize="10dp"
+                android:textSize="10sp"
                 android:paddingRight="20dp"
                 android:textStyle="italic" />
 
